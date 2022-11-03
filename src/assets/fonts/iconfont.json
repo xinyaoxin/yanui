@@ -1,0 +1,86 @@
+{
+  "id": "3747644",
+  "name": "管理者",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "18516635",
+      "name": "爱宠17",
+      "font_class": "aichong17",
+      "unicode": "ef76",
+      "unicode_decimal": 61302
+    },
+    {
+      "icon_id": "18516624",
+      "name": "爱宠06",
+      "font_class": "aichong06",
+      "unicode": "ef6b",
+      "unicode_decimal": 61291
+    },
+    {
+      "icon_id": "18516620",
+      "name": "爱宠02",
+      "font_class": "aichong02",
+      "unicode": "ef67",
+      "unicode_decimal": 61287
+    },
+    {
+      "icon_id": "18516621",
+      "name": "爱宠03",
+      "font_class": "aichong03",
+      "unicode": "ef68",
+      "unicode_decimal": 61288
+    },
+    {
+      "icon_id": "18516627",
+      "name": "爱宠09",
+      "font_class": "aichong09",
+      "unicode": "ef6e",
+      "unicode_decimal": 61294
+    },
+    {
+      "icon_id": "18516631",
+      "name": "爱宠13",
+      "font_class": "aichong13",
+      "unicode": "ef72",
+      "unicode_decimal": 61298
+    },
+    {
+      "icon_id": "18516632",
+      "name": "爱宠14",
+      "font_class": "aichong14",
+      "unicode": "ef73",
+      "unicode_decimal": 61299
+    },
+    {
+      "icon_id": "18516640",
+      "name": "爱宠22",
+      "font_class": "aichong22",
+      "unicode": "ef7b",
+      "unicode_decimal": 61307
+    },
+    {
+      "icon_id": "18516642",
+      "name": "爱宠24",
+      "font_class": "aichong24",
+      "unicode": "ef7d",
+      "unicode_decimal": 61309
+    },
+    {
+      "icon_id": "18516643",
+      "name": "爱宠25",
+      "font_class": "aichong25",
+      "unicode": "ef7e",
+      "unicode_decimal": 61310
+    },
+    {
+      "icon_id": "18516646",
+      "name": "爱宠28",
+      "font_class": "aichong28",
+      "unicode": "ef81",
+      "unicode_decimal": 61313
+    }
+  ]
+}
