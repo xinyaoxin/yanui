@@ -7,3 +7,10 @@
 ; 的接口来获取用户的详细信息（如用户权限，用户名等等信息）。
 ; ; 权限验证：通过token获取用户对应的 role，动态根据用户的 role 
 ; 算出其对应有权限的路由，通过 router.addRoutes 动态挂载这些路由。
+
+; vue-router：
+; 版本升级:addRoutes=>addRoute
+; 版本升级：router.matcher => router.resolve
+
+; 通过设置cookies持久存储token
+; 持久化存储vuex-persistedstate，在store/index中配置插件plugins，选择持久化模块

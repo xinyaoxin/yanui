@@ -4,7 +4,7 @@
       <el-card class="login-card">
         <el-form
           ref="ruleFormRef"
-          :model="ruleForm"
+          :model="formContent"
           status-icon
           :rules="rules"
           class="login-form"
@@ -19,7 +19,7 @@
               </svg>
             </span>
             <el-input
-              v-model="ruleForm.username"
+              v-model="formContent.username"
               placeholder="Username"
               type="text"
               autocomplete="off"
@@ -30,11 +30,11 @@
           <el-form-item prop="pass">
             <span class="svg-container">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icon-aichong09"></use>
+                <use xlink:href="#icon-aichong24"></use>
               </svg>
             </span>
             <el-input
-              v-model="ruleForm.pass"
+              v-model="formContent.pass"
               type="password"
               autocomplete="off"
               prefix-icon="icon-aichong09"
@@ -44,12 +44,14 @@
           <el-form-item prop="verification">
             <el-input
               class="verification-left"
-              v-model="ruleForm.verification"
+              v-model="formContent.verification"
               type="text"
               autocomplete="off"
               placeholder="请输入验证码"
             />
-            <el-button class="verification-middle">获取验证码</el-button>
+            <el-button class="verification-middle" @click="getVerification"
+              >获取验证码</el-button
+            >
             <el-button type="info" plain class="verification-right"
               >忘记密码？</el-button
             >
@@ -59,9 +61,13 @@
               :loading="loading"
               class="login-button"
               type="primary"
-              @click="submitForm(ruleFormRef)"
-              >登录</el-button
+              @click="handleLogin(ruleFormRef)"
             >
+              {{ $t("common.login") }}</el-button
+            >
+            <el-button class="login-reset" @click="resetForm(ruleFormRef)">{{
+              $t("common.reset")
+            }}</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -70,74 +76,91 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import type { FormInstance } from "element-plus";
+import { useStore } from "vuex";
+
 export default {
   setup() {
-    let loading = ref(false)
-    const username = ref("");
-    const getVerification = ref("获取验证码");
-    const reSend = ref("重新发送");
+    const store = useStore();
+    let loading = ref(false);
+    //   const username = ref("");
+    //   const getVerification = ref("获取验证码");
+    //   const reSend = ref("重新发送");
     const ruleFormRef = ref<FormInstance>();
-    const ruleForm = reactive({
+    //   //表单内容
+    const formContent = reactive({
+      username: "",
       pass: "",
       verification: "",
-      username: "",
     });
 
-    const checkAge = (rule: any, value: any, callback: any) => {
-      if (!value) {
-        return callback(new Error("Please input the age"));
+    //   //验证规则
+    const usenameReg = /^[a-zA-Z]{3,6}$/;
+    const passReg = /^[0-9]{6,9}$/;
+
+    const validateUsername = (rule: any, value: any, callback: any) => {
+      const regTest = usenameReg.test(value);
+      console.log("validateUsername", regTest);
+      if (value === "") {
+        callback(new Error("请输入用户名"));
+      } else if (!regTest) {
+        callback(new Error("请输入正确的用户名"));
+      } else {
+        // 关联验证verification，当username触发blur的时候会再次验证verification
+        //此处不需要
+        // if (formContent.verification !== "") {
+        //   if (!ruleFormRef.value) return;
+        //   ruleFormRef.value.validateField("verification", () => null);
+        // }
+        callback();
       }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("Please input digits"));
-        } else {
-          if (value < 18) {
-            callback(new Error("Age must be greater than 18"));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
     };
 
     const validatePass = (rule: any, value: any, callback: any) => {
+      const regTest = passReg.test(value);
+      console.log("Passreg", regTest);
       if (value === "") {
-        callback(new Error("Please input the password"));
+        callback(new Error("请输入密码"));
+      } else if (!regTest) {
+        callback(new Error("用户名和密码不匹配"));
       } else {
-        if (ruleForm.verification !== "") {
+        if (formContent.verification !== "") {
           if (!ruleFormRef.value) return;
           ruleFormRef.value.validateField("verification", () => null);
         }
         callback();
       }
     };
-    const validatePass2 = (rule: any, value: any, callback: any) => {
+
+    const validateVerification = (rule: any, value: any, callback: any) => {
+      console.log("validateVerification");
       if (value === "") {
-        callback(new Error("Please input the password again"));
-      } else if (value !== ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
+        callback(new Error("请输入验证码"));
+      } else if (value !== "1111") {
+        //这里应该是不等于后端返回的验证码
+        callback(new Error("验证码错误"));
       } else {
         callback();
       }
     };
 
     const rules = reactive({
+      username: [{ validator: validateUsername, trigger: "blur" }],
       pass: [{ validator: validatePass, trigger: "blur" }],
-      verification: [{ validator: validatePass2, trigger: "blur" }],
-      age: [{ validator: checkAge, trigger: "blur" }],
+      verification: [{ validator: validateVerification, trigger: "blur" }],
     });
 
-    const submitForm = (formEl: FormInstance | undefined) => {
-      loading.value = true
-      setTimeout(() => {
-        loading.value=false
-      }, 1000);
+    //登录
+    const handleLogin = (formEl: FormInstance) => {
       if (!formEl) return;
       formEl.validate((valid) => {
+        loading.value = true;
+        store.dispatch("user/login", formContent);
+        setTimeout(() => {
+          loading.value = false;
+        }, 2000);
         if (valid) {
-          console.log("submit!");
         } else {
           console.log("error submit!");
           return false;
@@ -145,16 +168,27 @@ export default {
       });
     };
 
-    const resetForm = (formEl: FormInstance | undefined) => {
+    const resetForm = (formEl: FormInstance) => {
+      store.commit('user/SET_NAME','yxx')
+      console.log(store.getters["user/token"]);
       if (!formEl) return;
       formEl.resetFields();
     };
+
+    const getVerification = ()=>{
+      
+      console.log('token:',store.state.user.token)
+      console.log('name:',store.state.user.name)
+    };
+
     return {
       loading,
-      username,
-      ruleForm,
-      submitForm,
+      formContent,
+      ruleFormRef,
       resetForm,
+      rules,
+      handleLogin,
+      getVerification
     };
   },
 };
@@ -213,7 +247,11 @@ export default {
       height: 50px;
     }
     .login-button {
-      width: 100%;
+      width: 71%;
+      height: 50px;
+    }
+    .login-reset {
+      width: 25.5%;
       height: 50px;
     }
   }

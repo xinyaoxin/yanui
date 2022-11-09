@@ -9,34 +9,30 @@ import http from '../utils/http'
 let resquest = "/api"
  
 // get请求
-export function getListAPI(params){
+export function getListAPI(params:any){
     return http.get(`${resquest}/api/first`,params)
 }
 // post请求
-export function postFormAPI(params){
+export function postFormAPI(params:any){
     return http.post(`${resquest}/api/first`,params)
 }
 // put 请求
-export function putSomeAPI(params){
+export function putSomeAPI(params:any){
     return http.put(`${resquest}/putSome.json`,params)
 }
 // delete 请求
-export function deleteListAPI(params){
+export function deleteListAPI(params:any){
     return http.delete(`${resquest}/deleteList.json`,params)
 }
 //登录接口
-export function postLoginAPI(params){
+export function postLoginAPI(params:any){
     return http.post(`${resquest}/api/login`,params)
 }
 //请求用户列表
-export function getUserListAPI(params){
+export function getUserListAPI(params:any){
     return http.get(`${resquest}/api/userList`,params)
 }
 //请求判断
-export function postComputeAPI(params){
+export function postComputeAPI(params:any){
     return http.post(`${resquest}/api/compute?new+item=id%3D1`,params)
-}
-// 连接晨后端
-export function accessAPI(params){
-    return http.get(`${resquest}/api/real/getRealDiscrete`,params)
 }

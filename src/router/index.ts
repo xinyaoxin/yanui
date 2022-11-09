@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from '../views/login/index.vue'
 
@@ -18,9 +18,20 @@ const routes: Array<RouteRecordRaw> = [
   }
 ]
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+
+//需要先声明其类型，不然会出现==>(类型 "Router" 没有调用签名)
+const router:any = createRouter({
+  history: createWebHashHistory(),
   routes
 })
+
+export function resetRouter() {
+  const newRouter = createRouter({
+    history: createWebHashHistory(),
+    routes
+  })
+  //版本升级：router.matcher => router.resolve
+  router.resolve = newRouter.resolve // reset router
+}
 
 export default router

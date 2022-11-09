@@ -1,8 +1,11 @@
 // 导入axios
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
+
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 // 使用element-ui Message做消息提醒
+
 //1. 创建新的axios实例，
 const service = axios.create({
   // 公共接口--这里注意后面会讲
@@ -13,17 +16,30 @@ const service = axios.create({
 // 2.请求拦截器
 service.interceptors.request.use(config => {
   //发请求前做的一些处理，数据转化，配置请求头，设置token,设置loading等，根据需求去添加
-  config.data = JSON.stringify(config.data); //数据转化,也可以使用qs转换
+  // config.data = JSON.stringify(config.data); //数据转化,也可以使用qs转换
   config.headers = {
     // 'Content-Type':'application/x-www-form-urlencoded' //配置请求头
-    'Content-Type': 'application/json utf-8' // 配置请求头
+    // 'Content-Type': 'application/json utf-8' // 配置请求头
   }
   //注意使用token的时候需要引入cookie方法或者用本地localStorage等方法，推荐js-cookie
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+    // config.headers['X-Token'] = getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
   }
   return config
-}, error => {
+}, 
+// service.interceptors.request.use(
+//   config => {
+//     // do something before request is sent
+
+//     if (store.getters.token) {
+//       // let each request carry token
+//       // ['X-Token'] is a custom headers key
+//       // please modify it according to the actual situation
+//       // config.headers['X-Token'] = getToken()
+//     }
+//     return config
+//   },
+error => {
   Promise.reject(error)
 })
 
