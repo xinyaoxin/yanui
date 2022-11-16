@@ -76,12 +76,14 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, getCurrentInstance, onMounted } from "vue";
 import type { FormInstance } from "element-plus";
 import { useStore } from "vuex";
 
 export default {
   setup() {
+    let instance: any;
+    let _this:any;
     const store = useStore();
     let loading = ref(false);
     //   const username = ref("");
@@ -98,6 +100,17 @@ export default {
     //   //验证规则
     const usenameReg = /^[a-zA-Z]{3,6}$/;
     const passReg = /^[0-9]{6,9}$/;
+
+    //获取全局this
+    const initThis = () => {
+      instance = getCurrentInstance();
+    };
+    onMounted(() => {
+      initThis();
+      if (instance !== null) {
+        _this = instance.appContext.config.globalProperties; //vue3获取当前this
+      }
+    });
 
     const validateUsername = (rule: any, value: any, callback: any) => {
       const regTest = usenameReg.test(value);
@@ -158,6 +171,7 @@ export default {
         loading.value = true;
         store.dispatch("user/login", formContent);
         setTimeout(() => {
+          _this.$router.push('/indexDb');
           loading.value = false;
         }, 2000);
         if (valid) {
@@ -169,16 +183,15 @@ export default {
     };
 
     const resetForm = (formEl: FormInstance) => {
-      store.commit('user/SET_NAME','yxx')
+      store.commit("user/SET_NAME", "yxx");
       console.log(store.getters["user/token"]);
       if (!formEl) return;
       formEl.resetFields();
     };
 
-    const getVerification = ()=>{
-      
-      console.log('token:',store.state.user.token)
-      console.log('name:',store.state.user.name)
+    const getVerification = () => {
+      console.log("token:", store.state.user.token);
+      console.log("name:", store.state.user.name);
     };
 
     return {
@@ -188,7 +201,7 @@ export default {
       resetForm,
       rules,
       handleLogin,
-      getVerification
+      getVerification,
     };
   },
 };

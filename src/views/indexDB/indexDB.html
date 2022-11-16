@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="home">
+        <div onclick="createInit()">创建数据库</div>
+        <div onclick="add()">新增</div>
+        <div onclick="read()">获取</div>
+        <div onclick="readAll()">获取全部</div>
+        <div onclick="deleteData()">删除</div>
+        <div onclick="deleteDb('simpleBase')">删除数据库</div>
+        <div onclick="putData()">更新</div>
+    </div>
+</body>
+
+</html>
+<script>
+    var db = 'qwe'
+    var createInit = () => {
+        console.log(11);
+        const request = window.indexedDB.open('simpleBase')
+        request.onsuccess = (e) => {
+            db = e.target.result
+        }
+        request.onupgradeneeded = (e) => {
+            var dataBase = e.target.result
+            var objectStore = dataBase.createObjectStore('simpleBase', { keyPath: "id" })
+        }
+    }
+    console.log(window)
+
+    var add = () => {
+        var data = {
+            'id': '111',
+            'name': 'asd'
+        }
+        // transaction表示一个事务。在数据库上创建一个事务，
+        // 指定作用域（例如要访问的存储对象），并确定所需的访问类型（只读或读写）
+        // objectStore表示允许访问通过主键查找的 IndexedDB 数据库中的一组数据的对象存储区
+        var transaction = db.transaction('simpleBase', 'readwrite')
+            .objectStore('simpleBase').add(data)
+
+
+    }
+    var deleteDb = (e) => {
+        console.log(this)
+        this.db.close()
+        var delReq = window.indexedDB.deleteDatabase('simpleBase');
+        delReq.onsuccess = (e) => {
+            console.log('关闭成功')
+        }
+        delReq.onblocked = (e) => {
+            console.log('阻止关闭')
+        }
+    }
+</script>

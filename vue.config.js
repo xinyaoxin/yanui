@@ -6,6 +6,9 @@ module.exports = defineConfig({
     open: false,
     /* 设置为0.0.0.0则所有的地址均能访问 */
     port: 8080,
+    client: {
+      webSocketURL: 'ws://0.0.0.0:8080/ws',
+    },
     https: false,
     /* 使用代理 */
     proxy: {
