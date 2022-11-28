@@ -79,11 +79,12 @@
 import { reactive, ref, computed, getCurrentInstance, onMounted } from "vue";
 import type { FormInstance } from "element-plus";
 import { useStore } from "vuex";
+import { login, logout, getInfo } from "@/api/user";
 
 export default {
   setup() {
     let instance: any;
-    let _this:any;
+    let _this: any;
     const store = useStore();
     let loading = ref(false);
     //   const username = ref("");
@@ -166,14 +167,18 @@ export default {
 
     //登录
     const handleLogin = (formEl: FormInstance) => {
+      console.log("this is formContent", formContent);
       if (!formEl) return;
       formEl.validate((valid) => {
         loading.value = true;
-        store.dispatch("user/login", formContent);
-        setTimeout(() => {
-          _this.$router.push('/indexDb');
+        login(formContent).then((res) => {
+          const usrInfo = res.data.data;
+          console.log("*****************1", usrInfo);
+          store.dispatch("user/storeLogin", usrInfo);
           loading.value = false;
-        }, 2000);
+          store.dispatch("permission/storePermission", store.state.user.token)
+          _this.$router.push("/")
+        });
         if (valid) {
         } else {
           console.log("error submit!");

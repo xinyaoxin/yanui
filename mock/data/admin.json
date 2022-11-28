@@ -1,0 +1,7 @@
+{
+    "code":0,
+    "message":"管理员登录成功",
+    "data":{
+        "token":"admin"
+    }
+}

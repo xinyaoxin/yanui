@@ -12,18 +12,31 @@ import 'element-plus/theme-chalk/index.css'
 import './assets/fonts/iconfont.css'
 import './assets/fonts/iconfont.js'
 
+// import './router/permission'
+
 if (process.env.NODE_ENV === 'production') {
     const { mockXHR } = require('../mock')
     mockXHR()
 }
 
+async function init() {
+    // if (localStorage.getItem("permissionList")) {
+    console.log('我将率先出击')
+    await store.dispatch("permission/storePermission", store.state.user.token)
+    // }
+}
 const app = createApp(App)
 
-app.use(store)
-app.use(router)
-app.use(i18n)
+async function call() {
+    await init()
+    app.use(store)
+    app.use(router)
+    app.use(i18n)
 
-// 新增代码：注册特定组件
-app.use(ElementPlus)
+    // 新增代码：注册特定组件
+    app.use(ElementPlus)
 
-app.mount('#app')
+    app.mount('#app')
+}
+call()
+

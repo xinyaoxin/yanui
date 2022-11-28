@@ -1,0 +1,18 @@
+{
+    "code": 200,
+    "message": "编辑者权限",
+    "data": [
+        {
+            "name":"商品管理",
+            "children":[
+                {
+                    "name":"小商品类别"
+                }
+            ]
+        },
+        {
+            "name":"Echarts笔记"
+        }
+
+    ]
+}

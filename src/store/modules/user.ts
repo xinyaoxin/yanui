@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import router from '@/router'
 import resetRouter  from '@/router'
 
-const state = {
+const state:any = {
     token: getToken(),
     name: '',
     avatar: '',
@@ -31,19 +31,21 @@ const mutations = {
 
 const actions = {
     // user login
-    login({ commit }:any, userInfo:any) {
-        const { username, pass:password } = userInfo
-        return new Promise<void>((resolve, reject) => {
-            login({ username: username.trim(), password: password }).then(response => {
-                const { data } = response.data
-                commit('SET_TOKEN', data.token)
-                setToken(data.token)
-                console.log('接口返回成功：',response);
-                resolve()
-            }).catch(error => {
-                reject(error)
-            })
-        })
+    storeLogin({ commit }:any, userInfo:any) {
+        // const { username, pass:password } = userInfo
+        commit('SET_TOKEN', userInfo.token)
+        setToken(userInfo.token)
+        // return new Promise<void>((resolve, reject) => {
+        //     login({ username: username.trim(), password: password }).then(response => {
+        //         const { data } = response.data
+        //         commit('SET_TOKEN', data.token)
+        //         setToken(data.token)
+        //         console.log('接口返回成功：',response);
+        //         resolve()
+        //     }).catch(error => {
+        //         reject(error)
+        //     })
+        // })
     },
 
     // get user info
@@ -81,10 +83,6 @@ const actions = {
                 commit('SET_TOKEN', '')
                 commit('SET_ROLES', [])
                 removeToken()
-                resetRouter()
-
-                // reset visited views and cached views
-                // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
                 dispatch('tagsView/delAllViews', null, { root: true })
 
                 resolve()
@@ -112,8 +110,6 @@ const actions = {
         setToken(token)
 
         const { roles } = await dispatch('getInfo')
-
-        resetRouter()
 
         // generate accessible routes map based on roles
         const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })

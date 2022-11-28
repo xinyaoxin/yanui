@@ -14,3 +14,6 @@
 
 ; 通过设置cookies持久存储token
 ; 持久化存储vuex-persistedstate，在store/index中配置插件plugins，选择持久化模块
+
+; 请求类型不同导致返回结果不一样
+; "Content-type": "application/json"

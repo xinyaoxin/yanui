@@ -1,0 +1,7 @@
+{
+    "code":1,
+    "message":"编辑者登录成功",
+    "data":{
+        "token":"editor"
+    }
+}

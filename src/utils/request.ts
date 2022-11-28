@@ -20,6 +20,7 @@ service.interceptors.request.use(config => {
   config.headers = {
     // 'Content-Type':'application/x-www-form-urlencoded' //配置请求头
     // 'Content-Type': 'application/json utf-8' // 配置请求头
+    "Content-type": "application/json"
   }
   //注意使用token的时候需要引入cookie方法或者用本地localStorage等方法，推荐js-cookie
   if (store.getters.token) {

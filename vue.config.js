@@ -13,14 +13,13 @@ module.exports = defineConfig({
     /* 使用代理 */
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:9527', //后端地址
+        target: 'http://localhost:3000', //后端地址
         ws: true,//是否代理websockets
         changeOrigin: true,// 是否允许跨域
-        // pathRewrite: {
-        //   '^/api': ''
-        // }
+        pathRewrite: {
+          '^/dev-api': ''
+        }
       }
     },
-    // before: require('./mock/mock-server.js')
   },
 })

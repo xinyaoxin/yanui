@@ -2,6 +2,18 @@
   <router-view />
 </template>
 <style lang='scss'>
+//纯净基本样式
+* {
+  padding: 0;
+  margin: 0;
+}
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%
+  ;
+}
 .icon {
   width: 1em;
   height: 1em;
