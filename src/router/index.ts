@@ -1,8 +1,9 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/home/index.vue'
 import Login from '../views/login/index.vue'
 import Layout from '../views/layout/index.vue'
 import store from '../store/index'
+import i18n from '@/i18n'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -49,6 +50,7 @@ const router = createRouter({
 
 router.beforeEach((to: any, from: any, next: any) => {
   console.log('进入路由导航守卫')
+  document.title = to.meta.name ? i18n.global.t('common.docuTitle') + ' | ' + to.meta.name : document.title = i18n.global.t('common.docuTitle')
   if (!store.state.user.token) {
     // 未登录
     if (to.matched.length > 0 && !to.matched.some((record: { meta: { requireAuth: any; }; }) => record.meta.requireAuth)) {

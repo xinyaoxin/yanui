@@ -1,6 +1,8 @@
+// without bank space
 export default {
     common: {
-        login:'login',
-        reset:'reset'
+        "login": 'en-login',
+        "reset": 'en-reset',
+        "docuTitle": 'en-Nothing at all'
     }
 }

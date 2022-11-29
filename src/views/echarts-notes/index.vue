@@ -4,6 +4,7 @@
 </template>
 <script lang="ts">
 import { reactive, ref, computed, getCurrentInstance, onMounted } from "vue";
+import router from '@/router';
 
 export default {
   setup() {
@@ -19,7 +20,7 @@ export default {
       }
     });
     const bacTokHome = () => {
-      _this.$router.push("/");
+      router.push("/goodsclass");
     };
     return {
         bacTokHome

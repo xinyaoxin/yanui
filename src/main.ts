@@ -19,11 +19,10 @@ if (process.env.NODE_ENV === 'production') {
     mockXHR()
 }
 
+//动态路由需要首先进行挂载
 async function init() {
-    // if (localStorage.getItem("permissionList")) {
     console.log('我将率先出击')
     await store.dispatch("permission/storePermission", store.state.user.token)
-    // }
 }
 const app = createApp(App)
 

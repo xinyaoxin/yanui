@@ -61,6 +61,7 @@
               :loading="loading"
               class="login-button"
               type="primary"
+              key="login"
               @click="handleLogin(ruleFormRef)"
             >
               {{ $t("common.login") }}</el-button
