@@ -15,6 +15,7 @@ import { pictureTexture } from './TTexture'
 const geometry = new BoxGeometry(80, 60, 80)                               //几何对象
 const material = new MeshStandardMaterial({
     color: 'red',
+    map:pictureTexture
     // metalness: 0.4, //金属度
     // roughness: 0.3 //粗糙度
 }) //给材料添加颜色
@@ -38,6 +39,7 @@ const box: Mesh = new Mesh(//网格物体的展现方式 Mesh Line Points(暂时
     material
 )
 box.position.y = 30
+box.position.x = 100
 box.castShadow = true
 
 //贴图 相框
@@ -48,14 +50,15 @@ const plane: Mesh = new Mesh(
     })
 )
 plane.position.y = 80
+plane.position.x = 100
 plane.scale.set(0.5, 0.5, 0.5) //缩放
 
 
-const sphere: Line = new Line(
-    new SphereGeometry(5, 25, 25),
-    new MeshStandardMaterial({ color: 'rgb(153, 50 ,204)' })
-)
-sphere.position.x = 10
+// const sphere: Line = new Line(
+//     new SphereGeometry(5, 25, 25),
+//     new MeshStandardMaterial({ color: 'rgb(153, 50 ,204)' })
+// )
+// sphere.position.x = 10
 
 // const cylinder: Mesh = new Mesh(
 //     new CylinderGeometry(5, 5, 10, 32, 5),
@@ -72,4 +75,4 @@ sphere.position.x = 10
 
 export const basicObjectList: Object3D[] = []
 
-basicObjectList.push(box, sphere, stage, plane)
+basicObjectList.push(box, stage, plane)

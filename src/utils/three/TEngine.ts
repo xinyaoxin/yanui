@@ -30,7 +30,7 @@ export class ThreeEngine {
         // this.renderer.domElement.width = this.dom.offsetWidth
         // this.renderer.domElement.height = this.dom.offsetHeight
         this.renderer.setSize(dom.offsetWidth, dom.offsetHeight)
-        this.camera.position.set(280, 280, 300)
+        this.camera.position.set(150, 200, 200)
         //相机的朝向
         this.camera.lookAt(new Vector3(0, 0, 0))
         this.camera.up = new Vector3(0, 1, 0)
