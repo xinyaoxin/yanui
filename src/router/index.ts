@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/home/index.vue'
+import HelloWorld from '../views/HomeView.vue'
 import Login from '../views/login/index.vue'
 import Layout from '../views/layout/index.vue'
 import store from '../store/index'
@@ -11,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: Login,
+  },
+  {
+    path: '/ads',
+    name: 'login',
+    component: HelloWorld,
   }
 ]
 //导出动态路由，默认加载根目录Layout
