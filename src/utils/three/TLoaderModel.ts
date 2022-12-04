@@ -1,10 +1,8 @@
-import { Mesh } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 const gltfLoader: GLTFLoader = new GLTFLoader()
-export const framePromise = gltfLoader.loadAsync('/seraphine/scene.gltf')
-// gltfLoader.load('/seraphine/scene.gltf', (gltf) => {
-//     var model = gltf.scene
-//     scene.add(model)
-// })
+export const framePromise = gltfLoader.loadAsync('/seraphine/modelb/scene.gltf')
+
+const fbxLoader: FBXLoader = new FBXLoader()
+export const fbxFramePromise = fbxLoader.loadAsync('/seraphine/modelc/jack.fbx')

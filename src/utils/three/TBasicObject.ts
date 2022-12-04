@@ -3,6 +3,7 @@ import {
     BoxGeometry, SphereGeometry, CylinderGeometry, PlaneGeometry,
     Object3D,
     Line,
+    Color,
 } from 'three'
 import { pictureTexture } from './TTexture'
 
@@ -15,7 +16,7 @@ import { pictureTexture } from './TTexture'
 const geometry = new BoxGeometry(80, 60, 80)                               //几何对象
 const material = new MeshStandardMaterial({
     color: 'red',
-    map:pictureTexture
+    map: pictureTexture
     // metalness: 0.4, //金属度
     // roughness: 0.3 //粗糙度
 }) //给材料添加颜色
@@ -32,6 +33,10 @@ const stage: Mesh = new Mesh(
 )
 stage.position.y = -5
 stage.receiveShadow = true
+stage.addEventListener('click', () => {
+    console.log('地面被点击了')
+})
+stage.raycast = () => { }
 
 
 const box: Mesh = new Mesh(//网格物体的展现方式 Mesh Line Points(暂时不可用)
@@ -75,4 +80,5 @@ plane.scale.set(0.5, 0.5, 0.5) //缩放
 
 export const basicObjectList: Object3D[] = []
 
-basicObjectList.push(box, stage, plane)
+basicObjectList.push(stage)
+basicObjectList.push(plane, box, stage)

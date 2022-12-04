@@ -1,0 +1,11 @@
+Model Information:
+* title:	Breda DM 90/5 (Doppio motore)
+* source:	https://sketchfab.com/3d-models/breda-dm-905-doppio-motore-21aea7b7dd784ccb9e1605e28c9e1c33
+* author:	Ammar D. (https://sketchfab.com/ammardhamiri1)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Breda DM 90/5 (Doppio motore)" (https://sketchfab.com/3d-models/breda-dm-905-doppio-motore-21aea7b7dd784ccb9e1605e28c9e1c33) by Ammar D. (https://sketchfab.com/ammardhamiri1) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

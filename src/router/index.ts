@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/ads',
-    name: 'login',
+    name: 'home',
     component: HelloWorld,
   }
 ]

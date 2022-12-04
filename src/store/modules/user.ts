@@ -1,9 +1,12 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router from '@/router'
-import resetRouter  from '@/router'
+import resetRouter from '@/router'
+import { ref } from 'vue'
 
-const state:any = {
+const state: any = {
+    elName:'',
+    isPopover: false,
     token: getToken(),
     name: '',
     avatar: '',
@@ -12,26 +15,32 @@ const state:any = {
 }
 
 const mutations = {
-    SET_TOKEN: (state:any, token:string) => {
+    SET_TOKEN: (state: any, token: string) => {
         state.token = token
     },
-    SET_INTRODUCTION: (state:any, introduction:any) => {
+    SET_INTRODUCTION: (state: any, introduction: any) => {
         state.introduction = introduction
     },
-    SET_NAME: (state:any, name:any) => {
+    SET_NAME: (state: any, name: any) => {
         state.name = name
     },
-    SET_AVATAR: (state:any, avatar:any) => {
+    SET_AVATAR: (state: any, avatar: any) => {
         state.avatar = avatar
     },
-    SET_ROLES: (state:any, roles:any) => {
+    SET_ROLES: (state: any, roles: any) => {
         state.roles = roles
-    }
+    },
+    SET_Popover: (state: any, popover: any) => {
+        state.isPopover = popover
+    },
+    SET_ELNAME: (state: any, elName: any) => {
+        state.elName = elName
+    },
 }
 
 const actions = {
     // user login
-    storeLogin({ commit }:any, userInfo:any) {
+    storeLogin({ commit }: any, userInfo: any) {
         // const { username, pass:password } = userInfo
         commit('SET_TOKEN', userInfo.token)
         setToken(userInfo.token)
@@ -49,7 +58,7 @@ const actions = {
     },
 
     // get user info
-    getInfo({ commit, state }:any) {
+    getInfo({ commit, state }: any) {
         return new Promise((resolve, reject) => {
             getInfo(state.token).then(response => {
                 const { data } = response
@@ -77,7 +86,7 @@ const actions = {
     },
 
     // user logout
-    logout({ commit, state, dispatch }:any) {
+    logout({ commit, state, dispatch }: any) {
         return new Promise<void>((resolve, reject) => {
             logout(state.token).then(() => {
                 commit('SET_TOKEN', '')
@@ -93,7 +102,7 @@ const actions = {
     },
 
     // remove token
-    resetToken({ commit }:any) {
+    resetToken({ commit }: any) {
         return new Promise<void>(resolve => {
             commit('SET_TOKEN', '')
             commit('SET_ROLES', [])
@@ -103,7 +112,7 @@ const actions = {
     },
 
     // dynamically modify permissions
-    async changeRoles({ commit, dispatch }:any, role:string) {
+    async changeRoles({ commit, dispatch }: any, role: string) {
         const token = role + '-token'
 
         commit('SET_TOKEN', token)
