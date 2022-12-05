@@ -5,13 +5,15 @@ import resetRouter from '@/router'
 import { ref } from 'vue'
 
 const state: any = {
-    elName:'',
+    elName: '',
     isPopover: false,
     token: getToken(),
     name: '',
     avatar: '',
     introduction: '',
-    roles: []
+    roles: [],
+    position: {},
+    id: ''
 }
 
 const mutations = {
@@ -35,6 +37,12 @@ const mutations = {
     },
     SET_ELNAME: (state: any, elName: any) => {
         state.elName = elName
+    },
+    SET_POSITOIN: (state: any, position: any) => {
+        state.position = position
+    },
+    SET_ID: (state: any, id: any) => {
+        state.id = id
     },
 }
 

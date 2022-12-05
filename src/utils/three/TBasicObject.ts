@@ -26,7 +26,6 @@ const stage: Mesh = new Mesh(
     new BoxGeometry(200, 10, 200),
     new MeshStandardMaterial({
         color: 'rgb(255, 255, 255)',
-        roughness: 0
     })
     // new BoxGeometry(10, 10, 10),                           //几何对象
     // new MeshStandardMaterial({ color: 'rgb(255, 106, 106)' })
@@ -80,5 +79,4 @@ plane.scale.set(0.5, 0.5, 0.5) //缩放
 
 export const basicObjectList: Object3D[] = []
 
-basicObjectList.push(stage)
-basicObjectList.push(plane, box, stage)
+basicObjectList.push()

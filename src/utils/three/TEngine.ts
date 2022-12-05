@@ -16,7 +16,7 @@ export class ThreeEngine {
     private renderer: WebGLRenderer
     private scene: Scene
     private camera: PerspectiveCamera
-    // private mouse: Vector2
+    private mouse: Vector2 = new Vector2();
     private raycaster: Raycaster
     private transformControls: TransformControls;
 
@@ -52,15 +52,14 @@ export class ThreeEngine {
         // this.renderer.domElement.width = this.dom.offsetWidth
         // this.renderer.domElement.height = this.dom.offsetHeight
         this.renderer.setSize(dom.offsetWidth, dom.offsetHeight)
-        this.camera.position.set(150, 200, 200)
+        this.camera.position.set(40, 50, 60)
         //相机的朝向
         this.camera.lookAt(new Vector3(0, 0, 0))
         this.camera.up = new Vector3(0, 1, 0)
 
         //背景色 默认整个空间是黑色
-        this.renderer.setClearColor('rgb(164, 196, 235)')
+        this.renderer.setClearColor('rgb(38,38,38)')
         this.renderer.clearColor()
-
 
         //性能监视
         const stats = Stats()
@@ -118,13 +117,22 @@ export class ThreeEngine {
             }
         })
         eventManager.addEventListener('click', (event) => {
+            // if (!store.state.user.visible) {
+            //     event.intersection[0].object.material.visible = false
+            // }
             if (event.intersection.length) {
-                console.log(event.intersection[0].object)
-                store.commit("user/SET_ELNAME", event.intersection[0].object.parent.name);
+                const object = event.intersection[0].object
+                console.log('这是此次点击获取到的内容', object)
+                store.commit("user/SET_ELNAME", object.parent.name);
                 store.commit("user/SET_Popover", true);
+                store.commit("user/SET_POSITOIN", {
+                    left: event.mouse_x,
+                    top: event.mouse_y
+                });
             } else {
                 store.commit("user/SET_Popover", false);
                 store.commit("user/SET_ELNAME", '')
+                store.commit("user/SET_POSITOIN", {});
             }
         })
 
@@ -262,5 +270,9 @@ export class ThreeEngine {
         object.forEach(element => {
             this.scene.add(element)
         });
+    }
+
+    modelHide(object: any) {
+        console.log(this.scene)
     }
 }
