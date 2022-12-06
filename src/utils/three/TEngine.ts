@@ -23,7 +23,6 @@ export class ThreeEngine {
     private eventManager: TEventManager
 
 
-
     // private material: MeshBasicMaterial
     // 构造器函数
     constructor(dom: HTMLElement) {
@@ -52,7 +51,7 @@ export class ThreeEngine {
         // this.renderer.domElement.width = this.dom.offsetWidth
         // this.renderer.domElement.height = this.dom.offsetHeight
         this.renderer.setSize(dom.offsetWidth, dom.offsetHeight)
-        this.camera.position.set(40, 50, 60)
+        this.camera.position.set(226, 118, 319)
         //相机的朝向
         this.camera.lookAt(new Vector3(0, 0, 0))
         this.camera.up = new Vector3(0, 1, 0)
@@ -80,8 +79,7 @@ export class ThreeEngine {
             this.camera,
             this.renderer.domElement
         );
-        let transing = false
-        // this.scene.add(this.transformControls)
+        this.scene.add(this.transformControls)
 
         const eventManager = new TEventManager({
             dom: this.renderer.domElement,
@@ -91,48 +89,109 @@ export class ThreeEngine {
         let cacheObject: Mesh | null = null
         //点击时可以获取当前射线和所有物体的焦点
         eventManager.addEventListener('mousemove', (event) => {
-            if (event.intersection.length) {
-                const object = event.intersection[0].object
-                // if(object.type === 'TransformControlsPlane'){
-                //     this.transformControls.detach()
-                //     this.scene.remove(this.transformControls)
-                // }else{
-                //     this.scene.add(this.transformControls)
-                //     this.transformControls.attach(object)
-                // }
-                if (object === cacheObject) {
-                    return
-                } else if (object !== cacheObject) {
-                    (cacheObject?.material as MeshStandardMaterial).color.multiplyScalar(10 / 13)
-                }
-                if (object.material) {
-                    object.material.color.multiplyScalar(1.3)
-                    cacheObject = object
-                }
-            } else {
-                if (cacheObject) {
-                    (cacheObject?.material as MeshStandardMaterial).color.multiplyScalar(10 / 13)
-                }
-                cacheObject = null
-            }
+            // if (event.intersection.length) {
+            //     const object = event.intersection[0].object
+            //     // if(object.type === 'TransformControlsPlane'){
+            //     //     this.transformControls.detach()
+            //     //     this.scene.remove(this.transformControls)
+            //     // }else{
+            //     //     this.scene.add(this.transformControls)
+            //     //     this.transformControls.attach(object)
+            //     // }s
+            //     if (object === cacheObject) {
+            //         return
+            //     } else if (object !== cacheObject) {
+            //         (cacheObject?.material as MeshStandardMaterial).color.multiplyScalar(10 / 13)
+            //     }
+            //     if (object.material) {
+            //         object.material.color.multiplyScalar(1.3)
+            //         cacheObject = object
+            //     }
+            // } else {
+            //     if (cacheObject) {
+            //         (cacheObject?.material as MeshStandardMaterial).color.multiplyScalar(10 / 13)
+            //     }
+            //     cacheObject = null
+            // }
         })
+        let cacheColor = new Color()
         eventManager.addEventListener('click', (event) => {
             // if (!store.state.user.visible) {
             //     event.intersection[0].object.material.visible = false
             // }
-            if (event.intersection.length) {
+            if (event.intersection.length && event.intersection[0].object.type === 'Mesh') {
                 const object = event.intersection[0].object
                 console.log('这是此次点击获取到的内容', object)
                 store.commit("user/SET_ELNAME", object.parent.name);
                 store.commit("user/SET_Popover", true);
+                store.commit("user/SET_RIGHTPOPOVER", false);
                 store.commit("user/SET_POSITOIN", {
                     left: event.mouse_x,
                     top: event.mouse_y
                 });
             } else {
                 store.commit("user/SET_Popover", false);
+                store.commit("user/SET_RIGHTPOPOVER", false);
                 store.commit("user/SET_ELNAME", '')
                 store.commit("user/SET_POSITOIN", {});
+            }
+            if (event.intersection.length) {
+                const object = event.intersection[0].object
+                if (object === cacheObject) {
+                    return
+                } else if (object !== cacheObject) {
+                    (cacheObject?.material as MeshStandardMaterial).color.copy(cacheColor)
+                }
+                if (object.material) {
+                    console.log(cacheColor)
+                    console.log(object.material.color)
+                    console.log('cacheColor', cacheColor)
+                    cacheColor = object.material.color.clone()
+                    object.material.color.set(0x409EFF)
+                    cacheObject = object
+                }
+            } else {
+                if (cacheObject) {
+                    (cacheObject?.material as MeshStandardMaterial).color.copy(cacheColor)
+                }
+                cacheObject = null
+            }
+        })
+
+        eventManager.addEventListener('contextmenu', (event) => {
+            if (event.intersection.length && event.intersection[0].object.type === 'Mesh') {
+                const object = event.intersection[0].object
+                store.commit("user/SET_POSITOIN", {
+                    left: event.mouse_x,
+                    top: event.mouse_y
+                });
+                store.commit("user/SET_RIGHTPOPOVER", true);
+                store.commit("user/SET_Popover", true);
+                store.commit("user/SET_ELNAME", object.parent.name);
+            } else {
+                return 
+
+            }
+            if (event.intersection.length) {
+                const object = event.intersection[0].object
+                if (object === cacheObject) {
+                    return
+                } else if (object !== cacheObject) {
+                    (cacheObject?.material as MeshStandardMaterial).color.copy(cacheColor)
+                }
+                if (object.material) {
+                    console.log(cacheColor)
+                    console.log(object.material.color)
+                    console.log('cacheColor', cacheColor)
+                    cacheColor = object.material.color.clone()
+                    object.material.color.set(0x409EFF)
+                    cacheObject = object
+                }
+            } else {
+                if (cacheObject) {
+                    (cacheObject?.material as MeshStandardMaterial).color.copy(cacheColor)
+                }
+                cacheObject = null
             }
         })
 

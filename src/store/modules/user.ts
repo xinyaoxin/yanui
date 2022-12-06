@@ -13,7 +13,8 @@ const state: any = {
     introduction: '',
     roles: [],
     position: {},
-    id: ''
+    id: '',
+    rightPopover: false
 }
 
 const mutations = {
@@ -34,6 +35,9 @@ const mutations = {
     },
     SET_Popover: (state: any, popover: any) => {
         state.isPopover = popover
+    },
+    SET_RIGHTPOPOVER: (state: any, rightPopover: any) => {
+        state.rightPopover = rightPopover
     },
     SET_ELNAME: (state: any, elName: any) => {
         state.elName = elName
