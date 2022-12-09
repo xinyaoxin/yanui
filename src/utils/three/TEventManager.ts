@@ -157,5 +157,19 @@ export class TEventManager extends EventDispatcher {
       });
       console.log('鼠标右键点击')
     })
+
+    dom.addEventListener('DOMMouseScroll', (event) => {
+      // let mouse_x = (mouse.x + 1) / 2 * dom.offsetWidth + 200
+      // let mouse_y = -((mouse.y - 1) * dom.offsetHeight) / 2 + 130
+      // raycaster.setFromCamera(mouse, this.camera);
+      // const intersection = raycaster.intersectObjects(this.scene.children);
+      this.dispatchEvent({
+        type: "DOMMouseScroll",
+        // intersection,
+        // mouse_x,
+        // mouse_y
+      });
+      console.log('滚轮')
+    })
   }
 }

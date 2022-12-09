@@ -2,11 +2,13 @@ import {
     Mesh, Color,
     Scene, PerspectiveCamera,
     WebGLRenderer, Vector3, AxesHelper,
-    GridHelper, Object3D, Vector2, Raycaster, MeshStandardMaterial
+    GridHelper, Object3D, Vector2, Raycaster, MeshStandardMaterial,
 } from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer'
 import { TEventManager } from './TEventManager'
 import store from '@/store/index'
 
@@ -21,6 +23,8 @@ export class ThreeEngine {
     private transformControls: TransformControls;
 
     private eventManager: TEventManager
+    private composer: EffectComposer;
+    private labelRenderer: CSS2DRenderer
 
 
     // private material: MeshBasicMaterial
@@ -35,6 +39,18 @@ export class ThreeEngine {
 
         //射线拾取器
         this.raycaster = new Raycaster()
+
+        //效果合成器render
+        var width = window.innerWidth - 200;
+        var height = window.innerHeight - 60;
+        const composer = new EffectComposer(this.renderer);
+        const labelRenderer = new CSS2DRenderer();
+        labelRenderer.setSize(width, height);
+        labelRenderer.domElement.style.position = 'absolute';
+        labelRenderer.domElement.style.top = '0';
+        labelRenderer.domElement.style.pointerEvents = 'none';
+        dom.appendChild(labelRenderer.domElement);
+
 
 
 
@@ -51,7 +67,7 @@ export class ThreeEngine {
         // this.renderer.domElement.width = this.dom.offsetWidth
         // this.renderer.domElement.height = this.dom.offsetHeight
         this.renderer.setSize(dom.offsetWidth, dom.offsetHeight)
-        this.camera.position.set(226, 118, 319)
+        this.camera.position.set(80, 100, 90)
         //相机的朝向
         this.camera.lookAt(new Vector3(0, 0, 0))
         this.camera.up = new Vector3(0, 1, 0)
@@ -169,7 +185,7 @@ export class ThreeEngine {
                 store.commit("user/SET_Popover", true);
                 store.commit("user/SET_ELNAME", object.parent.name);
             } else {
-                return 
+                return
 
             }
             if (event.intersection.length) {
@@ -193,6 +209,10 @@ export class ThreeEngine {
                 }
                 cacheObject = null
             }
+        })
+        eventManager.addEventListener('DOMMouseScroll', (event) => {
+            console.log('滚轮');
+
         })
 
         // let transing = false;
@@ -320,7 +340,9 @@ export class ThreeEngine {
 
         // 把一些东西挂载到this
         // this.mouse = mouse
+        this.composer = composer
         this.eventManager = eventManager
+        this.labelRenderer = labelRenderer
 
     }
 
@@ -331,7 +353,37 @@ export class ThreeEngine {
         });
     }
 
-    modelHide(object: any) {
-        console.log(this.scene)
+    render() {
+        console.log('render')
+        this.composer.render();
+        this.labelRenderer.render(this.scene, this.camera)
+        // this.renderer.render(this.scene, this.camera)
     }
+
+    zhengClick() {
+        let length = this.camera.position.length()
+        this.camera.position.set(0, 0, length);
+        this.camera.lookAt(this.scene.position);
+    }
+    zhouClick = () => {
+        let length = this.camera.position.length()
+        var vec3 = new Vector3(1, 1, 1).normalize();
+        this.camera.position.set(vec3.x * length, vec3.y * length, vec3.z * length);
+        this.camera.lookAt(this.scene.position);
+
+    }
+    ceClick = () => {
+        let length = this.camera.position.length()
+        this.camera.position.set(-length, 0, 0);
+        this.camera.lookAt(this.scene.position);
+
+    }
+    fuClick = () => {
+        let length = this.camera.position.length()
+        this.camera.position.set(0, length, 0);
+        this.camera.lookAt(this.scene.position);
+
+    }
+
+
 }

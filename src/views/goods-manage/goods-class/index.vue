@@ -6,6 +6,7 @@
   <div id="contextmenu" style="position: absolute" :style="{ left: left + 25 + 'px', top: top + 150 + 'px' }"
     v-if="rightPopover">
     <div class="menu" @click="handleOnlyShow()">独显</div>
+    <hr>
     <div class="menu" @click="hideClick()">隐藏</div>
   </div>
   <div id="name" style="position: absolute;color: #f09c3b;font-size: 18px;" v-if="isPopover"
@@ -17,7 +18,7 @@
   <div class="tools">
     <ul>
       <li @click="MaxClick"><i><img src="/seraphine/modelc/UI/最大化4.png" alt="" width="20" height="20"></i></li>
-      <li @click="SizeClick"><i><img src="/seraphine/modelc/UI/尺寸5.png" alt="" width="20" height="20"></i></li>
+      <!-- <li @click="SizeClick"><i><img src="/seraphine/modelc/UI/尺寸5.png" alt="" width="20" height="20"></i></li> -->
       <li @click="SmallerClick"><i><img src="/seraphine/modelc/UI/缩小.png" alt="" width="20" height="20"></i></li>
       <li @click="GreaterClick"><i><img src="/seraphine/modelc/UI/放大.png" alt="" width="20" height="20"></i></li>
       <li @click="zhengClick"><i><img src="/seraphine/modelc/UI/正视图.png" alt="" width="20" height="20"></i></li>
@@ -130,27 +131,39 @@ export default {
       })
     };
     const zhouClick = () => {
+      TE.value.zhouClick()
 
     }
     const ceClick = () => {
+      TE.value.ceClick()
 
     }
     const fuClick = () => {
+      TE.value.fuClick()
 
     }
     const zhengClick = () => {
-
+      TE.value.zhengClick()
     }
     const MaxClick = () => {
-
+      console.log('最大化', TE.value.camera)
+      TE.value.camera.zoom = 2;
+      TE.value.camera.updateProjectionMatrix();
+      TE.value.render()
     }
     const SizeClick = () => {
 
     }
     const SmallerClick = () => {
+      TE.value.scene.scale.x -= 0.1
+      TE.value.scene.scale.y -= 0.1
+      TE.value.scene.scale.z -= 0.1
 
     }
     const GreaterClick = () => {
+      TE.value.scene.scale.x += 0.1
+      TE.value.scene.scale.y += 0.1
+      TE.value.scene.scale.z += 0.1
 
     }
 
@@ -231,7 +244,7 @@ export default {
     position: absolute;
     right: 50%;
     top: 50%;
-    transform: translate(285px,160px);
+    transform: translate(285px, 160px);
     text-align: left;
     background-color: white;
   }
@@ -251,7 +264,9 @@ export default {
 // }
 
 .menu {
-  background-color: red;
+  text-align: center;
+  line-height: 50px;
+  background-color:rgb(212,212,212);
   opacity: 0.4;
   width: 50px;
   height: 50px;
