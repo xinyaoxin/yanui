@@ -95,7 +95,6 @@ export class ThreeEngine {
             this.camera,
             this.renderer.domElement
         );
-        this.scene.add(this.transformControls)
 
         const eventManager = new TEventManager({
             dom: this.renderer.domElement,
@@ -164,6 +163,9 @@ export class ThreeEngine {
                     console.log('cacheColor', cacheColor)
                     cacheColor = object.material.color.clone()
                     object.material.color.set(0x409EFF)
+                    debugger
+                    this.transformControls.attach(object)
+                    this.scene.add(this.transformControls)
                     cacheObject = object
                 }
             } else {
